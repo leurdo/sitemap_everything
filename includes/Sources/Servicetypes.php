@@ -1,14 +1,8 @@
 <?php
-namespace ASE;
+namespace ASE\Sources;
 
 class Servicetypes
 {
-    public static function init() {
-        $class = __CLASS__;
-        new $class;
-
-        add_filter( 'ase_urls_list', [$class, 'get_urls_list'] );
-    }
 
     public function get_urls_list() {
         return [
@@ -25,7 +19,8 @@ class Servicetypes
         ];
     }
 
-
 }
 
-add_action( 'ase_init_classes', ['ASE\Servicetypes', 'init'] );
+add_filter( 'sources_class_names', function($class_names) {
+    return $class_names['ASE\Sources\Servicetypes'];
+} );

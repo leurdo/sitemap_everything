@@ -18,14 +18,11 @@ if ( ! defined( 'ASE_PATH' ) ) {
     define( 'ASE_PATH', dirname( __FILE__ ) );
 }
 
-do_action('ase_init_classes');
-$urls = apply_filters( 'ase_urls_list', [] );
-
 if ( ! isset( $ase_plugin ) ) {
     require_once ASE_PATH . '/vendor/autoload.php';
 
     try {
-        $ase_plugin = ( new \ASE\Main($urls) )->init();
+        $ase_plugin = ( new \ASE\Main\Main() )->init();
     } catch (Exception $e) {
         if ( is_admin() ) {
             echo 'Ошибка: ',  $e->getMessage(), "\n";
