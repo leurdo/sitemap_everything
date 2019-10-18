@@ -16,8 +16,8 @@
     "psr-4": {
       "ASE\\":"includes/"
     },
-    "classmap": [
-      "includes/Sources/"
+    "files": [
+      "includes/config.php"
     ]
   }
 }

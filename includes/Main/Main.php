@@ -1,6 +1,8 @@
 <?php
 namespace ASE\Main;
 
+use ASE\Sources;
+
 class Main
 {
 
@@ -16,27 +18,25 @@ class Main
 
     urls are provided from /Sources/ files of with filter 'ase_urls_list'
     */
-    public $urls = [];
+    public static $urls = [];
 
     public function __construct() {}
 
     public function init() {
-        $classes = apply_filters( 'sources_class_names', [] );
-        if ( $classes ) {
-            foreach ( $classes as $class ) {
-                $this->urls[] = ( new $class )->get_urls_list();
+        if ( defined( 'ASE_CLASSES' ) && is_array( ASE_CLASSES) ) {
+            foreach ( ASE_CLASSES as $class ) {
+                $name = 'ASE\\Sources\\' . $class;
+                new $name;
             }
-        } else {
-            throw new \Exception('Нет данных');
         }
 
         // filter to add uls from external sources
-        $this->urls = apply_filters( 'ase_urls_list', $this->urls );
+        self::$urls = apply_filters( 'ase_urls_list', self::$urls );
 
-        if ( !is_array( $this->urls) || empty( $this->urls ) ) {
+        if ( !is_array( self::$urls ) || empty( self::$urls ) ) {
             throw new \Exception('Неправильный формат данных');
         } else {
-            foreach ( $this->urls as $name => $section ) {
+            foreach ( self::$urls as $name => $section ) {
                 if ( !is_array( $section ) ) {
                     throw new \Exception('Неправильный формат данных');
                 }
